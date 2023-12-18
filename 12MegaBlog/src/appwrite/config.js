@@ -30,7 +30,7 @@ export class Service {
 
         }
         catch(error){
-            throw error ;
+            console.log("Appwrite serive :: updatePost :: error", error);
         }
     }
     async updatePost (slug,{title,content,featuredImage,status}){
@@ -55,8 +55,8 @@ export class Service {
             return true;
         }
         catch(error){
-            throw error ;
-            return false ;
+            console.log("Appwrite serive :: deletePost :: error", error);
+            return false
         }
     }
 
@@ -70,7 +70,8 @@ export class Service {
         )
     }
     catch (error){
-        throw error ;
+        console.log("Appwrite serive :: getPost :: error", error);
+        return false
 
     }
    }
@@ -83,7 +84,8 @@ export class Service {
         )
     }
     catch (error){
-        throw error ;
+        console.log("Appwrite serive :: getPosts :: error", error);
+        return false ;
     }
 
    }
@@ -100,7 +102,7 @@ export class Service {
         return true;
     }
     catch (error){
-        throw error ;
+        console.log("Appwrite serive :: uploadFile :: error", error);
         return false ;
     }
    }
@@ -112,13 +114,18 @@ export class Service {
         return true;
     }
     catch(error){
-        throw error ;
+        console.log("Appwrite serive :: deleteFile :: error", error);
         return false ;
 
     }
 
    }
    getFilePreview(fileId){
-    this.bucket.getFilePreview(conf.appwriteBU_ID,fileId)
+    return this.bucket.getFilePreview(
+        conf.appwriteBU_ID,
+        fileId)
    }
 } 
+
+const service = new Service()
+export default service
