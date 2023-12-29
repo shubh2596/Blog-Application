@@ -6,6 +6,7 @@ import conf from './conf/conf'
 import { login,logout } from './store/authSlice'
 import Header from './Component/Header/Header'
 import Footer from './Component/Footer/Footer'
+import { Outlet } from 'react-router-dom'
 
 function App() {
 const [loading, setLoading] = useState(true)
@@ -27,7 +28,7 @@ useEffect (()=>{
     <div className='w-full block'>
       <Header/>
       <main>
-        {/* <Outlet /> */}
+        <Outlet />
       </main>
       <Footer/>
     </div>

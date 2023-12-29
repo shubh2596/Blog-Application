@@ -1,5 +1,5 @@
 import conf from "../conf/conf";
-import { Client , ID , Databases , Storage , Query } from "appwrite";
+import { Client , ID , Databases , Storage , Query , Account } from "appwrite";
  
 export class Service {
     client =  new Client ()
@@ -9,7 +9,7 @@ export class Service {
         this.client.setEndpoint(conf.appwriteURL).setProject(conf.appwritePR_ID);
         this.account = new Account(this.client);
         this.databases = new Databases (this.client)
-        this.bucket = new Storage (  this.client);
+        this.bucket = new Storage (this.client);
     }
 
     async createPost({title,slug,content,featuredImage,status,userId}){
@@ -102,7 +102,7 @@ export class Service {
         return true;
     }
     catch (error){
-        console.log("Appwrite serive :: uploadFile :: error", error);
+        console.log("Appwrite service :: uploadFile :: error", error);
         return false ;
     }
    }
