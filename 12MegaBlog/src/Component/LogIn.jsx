@@ -17,10 +17,11 @@ import { useDispatch } from 'react-redux'
         setError("")
         try{
           const session = await authService.login(data)
-
+            console.log(session);
           if(session){
             const userData = await authService.
             getCurrentUser()
+            console.log(userData)
             if(userData) dispatch(authLogin(userData));
             navigate("/") //we didn't used link as we had to explicitly click on it an navigate will just route the user to root page here 
           }

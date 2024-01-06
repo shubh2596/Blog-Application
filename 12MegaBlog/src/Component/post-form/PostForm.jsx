@@ -6,42 +6,54 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux"
 
 function PostForm({post}) {
-    const {register,handleSubmit,watch,
-        setValue,control,getValues}=useForm({
+    const {register,
+        handleSubmit,
+        watch,
+        setValue,
+        control,
+        getValues}=useForm({
             defaultValues : {
                 title: post?.title || "",
             slug: post?.$id || "",
             content: post?.content || "",
             status: post?.status || "active",
+
             },
         });
         const navigate = useNavigate();
         const userData=useSelector((state)=>state.auth.userData)
+        // console.log(userData);
+        console.log(userData);
 
         const submit = async (data) => {
             if(post){
-                const file = data.image[0] ? appwriteService.
+                const file = data.image[0] ? await appwriteService.
                 uploadFile(data.image[0]) : null
 
                 if(file){
                     appwriteService.deleteFile(post.
-                        featuredImage)
+                        featured_image)
                 }
                 const dbPost = await appwriteService.updatePost(
                     post.$id,{
                         ...data,
-                        featuredImage :  file ? file.$id : undefined ,
+                        featured_image :  file ? file.$id : undefined ,
                     }
                 )
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);
                 }
             } else {
-                const file = await appwriteService.uploadFile(data.image[0]);
+                const file = data.image && data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null;
+                console.log(file);
     
                 if (file) {
                     const fileId = file.$id;
-                    data.featuredImage = fileId;
+                    console.log(fileId )
+                    console.log(data);
+                    data.featured_image = fileId;
+                    console.log(data);
+                    console.log(userData.$id);
                     const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
     
                     if (dbPost) {
@@ -105,7 +117,7 @@ function PostForm({post}) {
         {post && (
             <div className="w-full mb-4">
                 <img
-                    src={appwriteService.getFilePreview(post.featuredImage)}
+                    src={appwriteService.getFilePreview(post.featured_image)}
                     alt={post.title}
                     className="rounded-lg"
                 />

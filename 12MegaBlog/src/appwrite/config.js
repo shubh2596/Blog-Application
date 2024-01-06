@@ -12,7 +12,7 @@ export class Service {
         this.bucket = new Storage (this.client);
     }
 
-    async createPost({title,slug,content,featuredImage,status,userId}){
+    async createPost({title,slug,content,featured_image,status,userId}){
         try {
             return await this.databases.createDocument(conf.appwriteDB_ID
                                                       ,conf.appwriteCO_ID,
@@ -20,7 +20,7 @@ export class Service {
                                                        {
                                                         title,
                                                         content,
-                                                        featuredImage,
+                                                        featured_image,
                                                         status,
                                                         userId,
 
@@ -30,16 +30,16 @@ export class Service {
 
         }
         catch(error){
-            console.log("Appwrite serive :: updatePost :: error", error);
+            console.log("Appwrite service :: createPost :: error", error);
         }
     }
-    async updatePost (slug,{title,content,featuredImage,status}){
+    async updatePost (slug,{title,content,featured_image,status}){
      try {
         return await this.databases.updateDocument(conf.appwriteDB_ID,conf.appwriteCO_ID,slug,
             {
                 title,
                 content,
-                featuredImage,
+                featured_image,
                 status
             })
      }
@@ -55,7 +55,7 @@ export class Service {
             return true;
         }
         catch(error){
-            console.log("Appwrite serive :: deletePost :: error", error);
+            console.log("Appwrite service :: deletePost :: error", error);
             return false
         }
     }
@@ -94,12 +94,12 @@ export class Service {
 
    async uploadFile (file){
     try{
-         await this.bucket.createFile(
+       return await this.bucket.createFile(
             conf.appwriteBU_ID,
             ID.unique(),
             file
         )
-        return true;
+         
     }
     catch (error){
         console.log("Appwrite service :: uploadFile :: error", error);
@@ -121,7 +121,7 @@ export class Service {
 
    }
    getFilePreview(fileId){
-    return this.bucket.getFilePreview(
+    return  this.bucket.getFilePreview(
         conf.appwriteBU_ID,
         fileId)
    }

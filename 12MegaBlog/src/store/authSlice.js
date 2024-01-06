@@ -8,17 +8,24 @@ const initialState = {
 const authSlice = createSlice ({
 name : "auth",
 initialState,
-reducers : {
-    login : (state,action) => {
-        state.status = true;
-        state.userData = action.payload.userData;
+reducers: {
+    login: (state, action) => {
+      console.log(action.payload);
+      return {
+        ...state,
+        status: true,
+        userData: action.payload,
+      };
     },
-    logout : (state)=>{
-        state.status= false;
-        state.userData = null;
+    logout: (state) => {
+      return {
+        ...state,
+        status: false,
+        userData: null,
+      };
     }
-
-}
+  }
+  
 }
 )
 
